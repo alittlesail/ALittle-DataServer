@@ -215,26 +215,12 @@ public class LeaseManager
 
 protected var g_LeaseManager = new LeaseManager();
 
-public struct GS2DATA_NGameServerInfo
-{
-    string client_ip;
-    int client_port;
-}
-
 [Msg]
 public static HandleNGameServerInfo(ALittle.IMsgCommon client, GS2DATA_NGameServerInfo msg)
 {
     g_LeaseManager.HandleGameServerInfo(cast<ALittle.MsgSession>(client), msg);
 }
 
-public struct GS2DATA_QRenewLease
-{
-    int account_id;
-}
-
-public struct DATA2GS_ARenewLease
-{
-}
 [Msg]
 public await static HandleQLeaseRenew(ALittle.IMsgCommon client, GS2DATA_QRenewLease msg) : DATA2GS_ARenewLease
 {
@@ -243,10 +229,6 @@ public await static HandleQLeaseRenew(ALittle.IMsgCommon client, GS2DATA_QRenewL
     return new DATA2GS_ARenewLease();
 }
 
-public struct GS2DATA_NReleaseLease
-{
-    int account_id;
-}
 [Msg]
 public static HandleNLeaseRelease(ALittle.IMsgCommon client, GS2DATA_NReleaseLease msg)
 {

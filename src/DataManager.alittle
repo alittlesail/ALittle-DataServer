@@ -1,13 +1,6 @@
 
 namespace DataServer;
 
-// 注册反射信息
-public struct GS2DATA_NRegStruct
-{
-    List<ALittle.StructInfo> rflt_list;
-    Map<int, bool> table_map;
-}
-
 struct TableReadyInfo
 {
     int total;
@@ -50,13 +43,6 @@ public async static HandleQRegStruct(ALittle.IMsgCommon common, GS2DATA_NRegStru
             register_map.ready[info.hash_code] = error == null;
         }
     }
-}
-
-// 加载数据
-public struct GS2DATA_QLoadStruct
-{
-    int account_id;
-    int hash_code;
 }
 
 [Msg]
@@ -102,13 +88,6 @@ public await static HandleQLoadStruct(ALittle.IMsgCommon client, GS2DATA_QLoadSt
     param.hash_code = info.hash_code;
     param.value = data;
     return param;
-}
-
-// 更新数据
-public struct GS2DATA_NBackupStruct
-{
-    int account_id;
-    ALittle.ProtocolAnyStruct data;
 }
 
 [Msg]
