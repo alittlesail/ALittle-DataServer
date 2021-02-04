@@ -214,6 +214,15 @@ function DataServer.LeaseManager:HandleLeaseTimeout(route_num, account_id)
 	self._lease_map[account_id] = nil
 end
 
+function DataServer.LeaseManager:ShowLeaseStatus()
+	local content = {}
+	ALittle.List_Push(content, "lease show below==>")
+	for account_id, info in ___pairs(self._lease_map) do
+		ALittle.List_Push(content, "account_id:" .. info.account_id .. ", confirm:" .. tostring(info.confirm) .. ", gs_route_num:" .. info.gs_route_num)
+	end
+	ALittle.Log(ALittle.String_Join(content, "\n"))
+end
+
 DataServer.g_LeaseManager = DataServer.LeaseManager()
 function DataServer.HandleNGameServerInfo(client, msg)
 	DataServer.g_LeaseManager:HandleGameServerInfo(client, msg)
@@ -233,4 +242,9 @@ function DataServer.HandleNLeaseRelease(client, msg)
 end
 
 ALittle.RegMsgCallback(-1970485469, DataServer.HandleNLeaseRelease)
+function DataServer.ShowLeaseStatus()
+	DataServer.g_LeaseManager:ShowLeaseStatus()
+end
+
+ALittle.RegCmdCallback("ShowLeaseStatus", DataServer.ShowLeaseStatus, {}, {}, "")
 end

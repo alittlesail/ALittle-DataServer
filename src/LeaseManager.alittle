@@ -134,6 +134,8 @@ public class LeaseManager
         // 更新权重
         ++ target.count;
         
+        // 新建一个租约信息
+        // 注意：info.confirm并没有设置为true，用来标记GS还不知道租约分配给它了
         info = new LeaseInfo();
         info.account_id = account_id;
         info.gs_route_num = target.session.route_num;
@@ -211,6 +213,16 @@ public class LeaseManager
         // 删除信息
         this._lease_map[account_id] = null;
     }
+
+    // 打印租约内容
+    private fun ShowLeaseStatus()
+    {
+        var content = new List<string>();
+        ALittle.List_Push(content, "lease show below==>");
+        for (var account_id, info in this._lease_map)
+            ALittle.List_Push(content, "account_id:"..info.account_id..", confirm:"..lua.tostring(info.confirm)..", gs_route_num:"..info.gs_route_num);
+        ALittle.Log(ALittle.String_Join(content, "\n"));
+    }
 }
 
 protected var g_LeaseManager = new LeaseManager();
@@ -235,3 +247,8 @@ public static HandleNLeaseRelease(ALittle.IMsgCommon client, GS2DATA_NReleaseLea
     g_LeaseManager.HandleReleaseLease(cast<ALittle.MsgSession>(client), msg);
 }
 
+[Cmd]
+public static ShowLeaseStatus()
+{
+    g_LeaseManager.ShowLeaseStatus();
+}

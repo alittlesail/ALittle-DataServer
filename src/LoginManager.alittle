@@ -27,9 +27,10 @@ public await static HandleQLogin(ALittle.IMsgCommon client, GW2DATA_QLogin msg) 
     // 检查租约是否到达
     if (!info.confirm)
     {
+        // 这里发送一个空包rpc，在获得返回值的时候，确保DATA2GS_NNewLease已经送达
         var error, result = ALittle.HandleQEmpty(gs_info.session, new ALittle.DATA2GS_QEmpty());
         if (error != null) throw("GS空包发送失败:"..error);
-        // 标记为确定到达
+        // 标记为DATA2GS_NNewLease确定到达
         info.confirm = true;
     }
     
